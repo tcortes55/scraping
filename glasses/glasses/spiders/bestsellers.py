@@ -8,7 +8,7 @@ class BestsellersSpider(scrapy.Spider):
     start_urls = ['https://www.glassesshop.com/bestsellers']
 
     def parse(self, response):
-        glasses = response.xpath('//div[@id="product-lists"]/div[contains(@class, "product-list-item")]')
+        glasses = response.xpath('//div[@id="product-lists"]/div[contains(@class, "product-list-item") and not(contains(@class, "ad-banner"))]')
         for glass in glasses:
             yield {
                 'product_url': glass.xpath('.//descendant::a[contains(@class, "product-title") and not(contains(@class, "none"))]/@href').get(),
