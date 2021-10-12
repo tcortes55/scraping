@@ -16,3 +16,8 @@ class BestsellersSpider(scrapy.Spider):
                 'product_name': glass.xpath('.//descendant::a[contains(@class, "product-title") and not(contains(@class, "none"))]/@title').get(),
                 'product_price': glass.xpath('.//descendant::div[contains(@class, "p-price") and not(contains(@class, "none"))]/div[not(contains(@class, "none"))]/span/text()').get()
             }
+
+        next_page = response.xpath('.//a[@rel="next"]/@href').get()
+
+        if next_page:
+            yield scrapy.Request(url=next_page, callback=self.parse)
